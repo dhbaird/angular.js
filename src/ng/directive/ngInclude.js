@@ -159,6 +159,14 @@ var ngIncludeDirective = ['$http', '$templateCache', '$anchorScroll', '$compile'
           var thisChangeId = ++changeCounter;
 
           if (src) {
+            // Modeled after jQuery.fn.load (see https://github.com/jquery/jquery/blob/master/src/ajax.js#L133):
+            var selector;
+            var off = src.indexOf(" ");
+            if (off >= 0) {
+                selector = src.slice(off);
+                src = src.slice(0, off);
+            }
+
             $http.get(src, {cache: $templateCache}).success(function(response) {
               if (thisChangeId !== changeCounter) return;
 
@@ -166,7 +174,17 @@ var ngIncludeDirective = ['$http', '$templateCache', '$anchorScroll', '$compile'
               childScope = scope.$new();
               animate.leave(element.contents(), element);
 
-              var contents = jqLite('<div/>').html(response).contents();
+              var contents;
+              if (selector) {
+                  // XXX: What's a better choice of these two?
+                  // Choice (a): this will only work if jQuery is available:
+                  //contents = jqLite('<div/>').html(response).find(selector);
+                  // Choice (b): rely on querySelectorAll() instead of jQuery:
+                  contents = jqLite(jqLite('<div/>').html(response)[0].querySelectorAll(selector));
+              }
+              else {
+                  contents = jqLite('<div/>').html(response).contents();
+              }
 
               animate.enter(contents, element);
               $compile(contents)(childScope);
