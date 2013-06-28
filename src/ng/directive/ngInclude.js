@@ -167,6 +167,12 @@ var ngIncludeDirective = ['$http', '$templateCache', '$anchorScroll', '$compile'
               src = src.slice(0, off);
             }
 
+            useCache = Boolean(attr.cache || true);
+            var config = { };
+            if (useCache) {
+              angular.extend(config, {cache: $templateCache});
+            }
+
             $http.get(src, {cache: $templateCache}).success(function(response) {
               if (thisChangeId !== changeCounter) return;
 
