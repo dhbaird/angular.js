@@ -163,8 +163,8 @@ var ngIncludeDirective = ['$http', '$templateCache', '$anchorScroll', '$compile'
             var selector;
             var off = src.indexOf(" ");
             if (off >= 0) {
-                selector = src.slice(off);
-                src = src.slice(0, off);
+              selector = src.slice(off);
+              src = src.slice(0, off);
             }
 
             $http.get(src, {cache: $templateCache}).success(function(response) {
