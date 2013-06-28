@@ -176,14 +176,14 @@ var ngIncludeDirective = ['$http', '$templateCache', '$anchorScroll', '$compile'
 
               var contents;
               if (selector) {
-                  // XXX: What's a better choice of these two?
-                  // Choice (a): this will only work if jQuery is available:
-                  //contents = jqLite('<div/>').html(response).find(selector);
-                  // Choice (b): rely on querySelectorAll() instead of jQuery:
-                  contents = jqLite(jqLite('<div/>').html(response)[0].querySelectorAll(selector));
+                // XXX: What's a better choice of these two?
+                // Choice (a): this will only work if jQuery is available:
+                //contents = jqLite('<div/>').html(response).find(selector);
+                // Choice (b): rely on querySelectorAll() instead of jQuery:
+                contents = jqLite(jqLite('<div/>').html(response)[0].querySelectorAll(selector));
               }
               else {
-                  contents = jqLite('<div/>').html(response).contents();
+                contents = jqLite('<div/>').html(response).contents();
               }
 
               animate.enter(contents, element);
